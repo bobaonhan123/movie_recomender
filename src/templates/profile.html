@@ -139,6 +139,41 @@
 
 {% block extra_js %}
 <script>
+// Tự động điền user_id từ localStorage khi vào trang profile
+window.addEventListener('DOMContentLoaded', function() {
+    // Auto-fill user_id if exists
+    const userId = localStorage.getItem('movieapp_user_id');
+    const userIdInput = document.getElementById('user_id');
+    if (userId && userIdInput) {
+        userIdInput.value = userId;
+    }
+
+    // Xử lý chuyển hướng khi bấm vào "Gợi Ý Phim" trên navbar
+    const nav = document.querySelector('.navbar');
+    if (nav) {
+        const recommendLink = Array.from(nav.querySelectorAll('a.nav-link')).find(a => a.textContent.includes('Gợi Ý Phim'));
+        if (recommendLink) {
+            if (userId) {
+                recommendLink.classList.remove('disabled');
+                recommendLink.title = '';
+            } else {
+                recommendLink.classList.add('disabled');
+                recommendLink.title = 'Bạn cần nhập thông tin cá nhân trước khi nhận gợi ý phim';
+            }
+            recommendLink.addEventListener('click', function(e) {
+                const userId = localStorage.getItem('movieapp_user_id');
+                if (userId) {
+                    e.preventDefault();
+                    window.location.href = '/recommend/' + userId;
+                } else {
+                    e.preventDefault();
+                    alert('Vui lòng nhập thông tin cá nhân trước khi nhận gợi ý phim!');
+                }
+            });
+        }
+    }
+});
+
 document.getElementById('profileForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -154,8 +189,9 @@ document.getElementById('profileForm').addEventListener('submit', function(e) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
+            // Lưu user_id vào localStorage
+            localStorage.setItem('movieapp_user_id', userId);
             document.getElementById('successMessage').style.display = 'block';
-            // Chuyển hướng đến trang recommend sau 1 giây
             setTimeout(() => {
                 window.location.href = data.redirect_url || ('/recommend/' + userId);
             }, 1000);
