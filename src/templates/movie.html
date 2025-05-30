@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }} - Movie Recommendation App{% endblock %}
+
+{% block extra_css %}
+<style>
+    .movie-backdrop {
+        height: 400px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .movie-poster-large {
+        width: 100%;
+        border-radius: 5px;
+    }
+    .movie-detail {
+        margin-bottom: 10px;
+    }
+    .genre-badge {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        {% if movie.backdrop_url %}
+        <img src="{{ movie.backdrop_url }}" alt="Backdrop for {{ movie.title }}" class="movie-backdrop">
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        {% if movie.poster_url %}
+        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="movie-poster-large mb-4">
+        {% else %}
+        <div class="bg-secondary d-flex justify-content-center align-items-center" style="height: 450px; border-radius: 5px;">
+            <span class="text-white">No Image Available</span>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h1>{{ movie.title }}</h1>
+        
+        {% if movie.tagline %}
+        <h5 class="text-muted mb-4">{{ movie.tagline }}</h5>
+        {% endif %}
+        
+        <div class="movie-detail">
+            <strong>Release Date:</strong> {{ movie.release_date }}
+        </div>
+        
+        <div class="movie-detail">
+            <strong>Rating:</strong> {{ movie.vote_average }}/10 ({{ movie.vote_count }} votes)
+        </div>
+        
+        {% if movie.runtime %}
+        <div class="movie-detail">
+            <strong>Runtime:</strong> {{ movie.runtime }} minutes
+        </div>
+        {% endif %}
+        
+        <div class="movie-detail">
+            <strong>Genres:</strong>
+            {% for genre in movie.genres %}
+            <a href="/genre/{{ genre.id }}">
+                <span class="badge bg-primary genre-badge">{{ genre.name }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        
+        {% if movie.overview %}
+        <div class="movie-detail mt-4">
+            <h4>Overview</h4>
+            <p>{{ movie.overview }}</p>
+        </div>
+        {% endif %}
+        
+        {% if movie.production_companies and movie.production_companies|length > 0 %}
+        <div class="movie-detail mt-4">
+            <h4>Production Companies</h4>
+            <div class="row">
+                {% for company in movie.production_companies %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ company.name }}</h5>
+                            <p class="card-text">{{ company.origin_country }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <a href="/" class="btn btn-primary">Back to Genres</a>
+    </div>
+</div>
+{% endblock %}

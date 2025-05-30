@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Profile Form</title>
+</head>
+<body>
+    <h1>Test Profile Form</h1>
+    <form method="POST" action="/profile">
+        <p>
+            <label>User ID:</label>
+            <input type="text" name="user_id" value="test123" required>
+        </p>
+        <p>
+            <label>Gender:</label>
+            <select name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </p>
+        <p>
+            <label>Address:</label>
+            <select name="address" required>
+                <option value="hanoi">Hanoi</option>
+                <option value="hcmc">HCMC</option>
+            </select>
+        </p>
+        <p>
+            <label>Job:</label>
+            <select name="job" required>
+                <option value="engineer">Engineer</option>
+                <option value="student">Student</option>
+            </select>
+        </p>
+        <p>
+            <label>Industry:</label>
+            <select name="industry" required>
+                <option value="technology">Technology</option>
+                <option value="education">Education</option>
+            </select>
+        </p>
+        <p>
+            <label>Age Group:</label>
+            <select name="age_group" required>
+                <option value="26-35">26-35</option>
+                <option value="18-25">18-25</option>
+            </select>
+        </p>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

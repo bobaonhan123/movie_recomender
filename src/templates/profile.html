@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Movie Recommendation App{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .form-select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .submit-btn {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s;
+    }
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    }
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Thông Tin Cá Nhân</h1>
+    
+    <div class="profile-form">
+        <form id="profileForm" method="POST" action="/profile">
+            <div class="form-group">
+                <label for="user_id" class="form-label">ID Người dùng:</label>
+                <input type="text" class="form-select" id="user_id" name="user_id" required placeholder="Nhập ID của bạn (ví dụ: user123)">
+                <label for="gender" class="form-label">Giới tính:</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="">Chọn giới tính...</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="address" class="form-label">Địa chỉ:</label>
+                <select class="form-select" id="address" name="address" required>
+                    <option value="">Chọn địa chỉ...</option>
+                    <option value="Cẩm Lệ">Cẩm Lệ</option>
+                    <option value="Huyện Hòa Vang">Huyện Hòa Vang</option>
+                    <option value="Hải Châu">Hải Châu</option>
+                    <option value="III thành phố Đà Nẵng cũ">III thành phố Đà Nẵng cũ</option>
+                    <option value="Liên Chiểu">Liên Chiểu</option>
+                    <option value="Ngũ Hành Sơn">Ngũ Hành Sơn</option>
+                    <option value="Thanh Khê">Thanh Khê</option>
+                    <option value="công">Công</option>
+                    <option value="Điểm cuối">Điểm cuối</option>
+                    <option value="ủy quận Nhì Đà Nẵng">Ủy quận Nhì Đà Nẵng</option>
+                    <option value="nan">Khác</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="job" class="form-label">Nghề nghiệp:</label>
+                <select class="form-select" id="job" name="job" required>
+                    <option value="">Chọn nghề nghiệp...</option>
+                    <option value="blue collar">Blue Collar (Công nhân)</option>
+                    <option value="specialist">Specialist (Chuyên gia)</option>
+                    <option value="student">Student (Học sinh/Sinh viên)</option>
+                    <option value="white collar">White Collar (Nhân viên văn phòng)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="industry" class="form-label">Lĩnh vực công việc:</label>
+                <select class="form-select" id="industry" name="industry" required>
+                    <option value="">Chọn lĩnh vực...</option>
+                    <option value="computer">Computer (Máy tính)</option>
+                    <option value="construction">Construction (Xây dựng)</option>
+                    <option value="economics">Economics (Kinh tế)</option>
+                    <option value="education">Education (Giáo dục)</option>
+                    <option value="engineering">Engineering (Kỹ thuật)</option>
+                    <option value="finance">Finance (Tài chính)</option>
+                    <option value="government agent">Government Agent (Cán bộ nhà nước)</option>
+                    <option value="health service">Health Service (Y tế)</option>
+                    <option value="social service">Social Service (Dịch vụ xã hội)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="age_group" class="form-label">Nhóm tuổi:</label>
+                <select class="form-select" id="age_group" name="age_group" required>
+                    <option value="">Chọn nhóm tuổi...</option>
+                    <option value="0-18">0-18 tuổi</option>
+                    <option value="19-25">19-25 tuổi</option>
+                    <option value="26-35">26-35 tuổi</option>
+                    <option value="36-50">36-50 tuổi</option>
+                    <option value="51-65">51-65 tuổi</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Lưu Thông Tin & Tìm Phim Phù Hợp</button>
+        </form>
+
+        <div id="successMessage" class="success-message">
+            <strong>Thành công!</strong> Thông tin của bạn đã được lưu. Đang chuyển hướng đến trang gợi ý phim...
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('profileForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const userId = document.getElementById('user_id').value;
+    fetch('/profile', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            document.getElementById('successMessage').style.display = 'block';
+            // Chuyển hướng đến trang recommend sau 1 giây
+            setTimeout(() => {
+                window.location.href = data.redirect_url || ('/recommend/' + userId);
+            }, 1000);
+        } else {
+            alert('Có lỗi xảy ra: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi lưu thông tin');
+    });
+});
+</script>
+{% endblock %}
